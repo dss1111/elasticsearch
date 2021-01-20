@@ -89,8 +89,10 @@ GET this_index/_search
 필터링, range등으로 결과 값의 범위를 정한다거나 할때 사용한다. 날짜 범위를 줘서 센서데이터를 검색하는 식으로 사용했다.(이후 날짜데이터는 날짜별 index로 따로 분리하는 방법으로 변경)  
 #### range
 gt,gte,lt,lte로 데이터 범위를 지정해서 검색할때 사용한다. range로 나이가 15<=age<30인 범위 검색  
-gt : greater than   gte: greater than or equal  
-lt : less than      lte: less than or equal  
+gt : greater than     
+gte: greater than or equal  
+lt : less than        
+lte: less than or equal    
 ```
 GET this_index/_search
 {
