@@ -23,9 +23,11 @@ GET this_index/_search
 ```
 #### match
 조건에 알맞은 도큐먼트 검색
+* size 지정하면 설정한 사이즈만큼의 데이터만 가져온다.
 ```
 GET this_index/_search
 {
+    "size": 1000, //1000개만큼의 검색결과를 가져온다.
     "query":{
         "match":{
             "name":"yoon"
@@ -84,6 +86,28 @@ GET this_index/_search
 }
 ```
 ## 필터
-필터링, range등으로 결과 값의 범위를 정한다거나 할때 사용. 차후 업로드.
+필터링, range등으로 결과 값의 범위를 정한다거나 할때 사용한다. 날짜 범위를 줘서 센서데이터를 검색하는 식으로 사용했다.(이후 날짜데이터는 날짜별 index로 따로 분리하는 방법으로 변경)  
+#### range
+gt,gte,lt,lte로 데이터 범위를 지정해서 검색할때 사용한다. range로 나이가 15<=age<30인 범위 검색  
+gt : greater than   gte: greater than or equal  
+lt : less than      lte: less than or equal  
+```
+GET this_index/_search
+{
+    "query":{
+        "bool":{
+            "must":[
+                {"range":
+                    {"age": 
+                        {"gte":"15","lt":"30"}
+                    }
+                }
+            ]
+        }
+    }
+}
+```
 ## 통계기능
 특정 강의실의 하루간 온도의 평균을 구하는 경우와 같을때 사용했었다. 차후 업로드.
+
+## 사용 팁
