@@ -23,7 +23,7 @@ GET this_index/_search
 ```
 #### match
 조건에 알맞은 도큐먼트 검색
-* size 지정하면 설정한 사이즈만큼의 데이터만 가져온다.
+* size 지정하면 설정한 사이즈만큼의 데이터만 가져온다. 디폴트가 20이였던가?..(까먹음)
 ```
 GET this_index/_search
 {
@@ -110,6 +110,28 @@ GET this_index/_search
 }
 ```
 ## 통계기능
-특정 강의실의 하루간 온도의 평균을 구하는 경우와 같을때 사용했었다. 차후 업로드.
+aggs를 사용한다. aggs에 aggregation을 주고 원하는 결과값을 만들기 위해 쿼리를 수정해주면 된다. 나같은 경우 특정 강의실의 하루간 온도의 평균을 구하는 경우와 같을때 사용했었다.   
+
+모든 학생들의 성적필드의 합을 구하는 경우
+```
+GET this_index/_search
+{
+    "aggs": {
+        "all_students":{
+            "sum":{
+                "field":"score"
+            }
+        }
+    }
+}
+```
+min,max,sum,avg 등을 사용할 수 있다. 만약 4개모두와 count를 다가져와야 한다면 stats를 사용하면 된다. 
+더 자세히 알고싶다면 [https://esbook.kimjmin.net/08-aggregations/8.1-metrics-aggregations][agg] 설명이 아주 잘되어있다.
 
 ## 사용 팁
+1. 기간별로 인덱싱하는 것이 관리하기 편하다.     
+-> 2020_01,  2020_02 이런식으로 매달마다 생성된 데이터를 인덱스 하나에 저장한다고 생각해보자, 현재 조건으로는 메모리에 3달간의 데이터만 저장할 수 있다면?    
+1월,2월,3월 3달간의 데이터를 저장하고 4월이 되었을때 1월의 index를 따로 떼어 백업을 한다거나 삭제한다면 효과적으로 관리할 수 있다!  
+2. 날짜는 UTC기준으로 저장하고 불러올때+9:00을 계산하자. Elasticsearch가 UTC 기준으로 되어있어서 우리나라 시간에 맞춰서 저장하는 것은 권장하지 않는다고 한다.
+
+[agg]:<https://esbook.kimjmin.net/08-aggregations/8.1-metrics-aggregations>
